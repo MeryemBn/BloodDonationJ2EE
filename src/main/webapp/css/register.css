@@ -1,0 +1,33 @@
+@charset "ISO-8859-1";
+
+.select {
+  display: block;
+  width: 100%;
+  background: #f6f6f6;
+  border-radius: 25px;
+  padding: 10px;
+  border: none;
+  font-family: 'Roboto', sans-serif;
+  font-size: 16px;
+  color: #333;
+  margin-bottom: 20px;
+}
+
+/* Style pour les boutons radio */
+/* Style pour les boutons radio */
+.radio-group {
+  margin-bottom: 20px;
+}
+
+.radio-group label {
+  margin-right: 20px;
+  font-size: 16px;
+  color: #333;
+  display: inline-block; /* Ajout de cet élément pour les afficher en ligne */
+  vertical-align: middle; /* Alignement vertical */
+}
+
+.radio-group input[type="radio"] {
+  margin-right: 5px;
+  vertical-align: middle;
+}
