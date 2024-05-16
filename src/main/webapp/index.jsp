@@ -1,11 +1,3 @@
-
-<%
-if (session.getAttribute("user") == null) {
-	response.sendRedirect("login.jsp");
-}
-%>
-
-
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -100,8 +92,11 @@ if (session.getAttribute("user") == null) {
 						class="nav-link py-3 px-0 px-lg-3 rounded" href="#contact">Make
 							Appointment</a></li>
 					<li class="nav-item mx-0 mx-lg-1"><a
-						class="nav-link py-3 px-0 px-lg-3 rounded" href="#"
-						onclick="confirmLogout()">Logout</a></li>
+						class="nav-link py-3 px-0 px-lg-3 rounded"href="login.jsp">LOGIN</a></li>
+					<li class="nav-item mx-0 mx-lg-1"><a
+						class="nav-link py-3 px-0 px-lg-3 rounded" href="registration.jsp">SINGUP</a></li>
+					<li class="nav-item mx-0 mx-lg-1" style="display: <%=(session.getAttribute("user") != null) ? "block" : "none" %>;"><a
+						class="nav-link py-3 px-0 px-lg-3 rounded"   href="#" onclick="confirmLogout()">Logout</a></li>
 
 				</ul>
 			</div>
@@ -114,10 +109,8 @@ if (session.getAttribute("user") == null) {
 			<div class="slider">
 				<div id="slide-1" class="slide"
 					style="flex: 1; background-image: url(images/background.jpg); background-size: cover; background-position: center;"></div>
-				<div id="slide-2" class="slide"
-					style="flex: 1; background-image: url(images/background8.png); background-size: cover; background-position: center;"></div>
-				<div id="slide-3" class="slide"
-					style="flex: 1; background-image: url(images/background6.jpg); background-size: cover; background-position: center;"></div>
+
+			</div>
 			</div>
 	</header>
 	<!-- Portfolio Section-->
@@ -232,13 +225,22 @@ if (session.getAttribute("user") == null) {
 					<!-- To make this form functional, sign up at-->
 					<!-- https://startbootstrap.com/solution/contact-forms-->
 					<!-- to get an API token!-->
-					<!-- Display the message if it exists -->
-    <% String message = (String) request.getAttribute("message"); %>
-    <% if (message != null) { %>
-        <div class="alert alert-success">
-            <%= message %>
-        </div>
-    <% } %>
+							<!-- Display the message if it exists -->
+		    <% String message = (String) request.getAttribute("message"); %>
+		<% String messagelog = (String) request.getAttribute("messagelog"); %>
+		
+		<% if (messagelog != null && message != null && session.getAttribute("user") == null) { %>
+		    <div class="alert alert-danger">
+		        <%= messagelog %>
+		    </div>
+		
+		<% }else if (messagelog != null && message != null && session.getAttribute("user") != null) { %>
+		    <div class="alert alert-success">
+		        <%= message %>
+		    </div>
+		<% } %>
+
+    
 
     <form class="row g-3" action="AppointementController" method="post" onsubmit="return validateForm()">
         <!-- Last Name input -->
@@ -342,33 +344,7 @@ if (session.getAttribute("user") == null) {
 			}
 		}
 
-		function autoSlide() {
-			// Récupérer toutes les diapositives
-			const slides = document.querySelectorAll('.slide');
-			const slider = document.querySelector('.slider');
-			// Récupérer l'index de la diapositive active
-			let currentIndex = 0;
-
-			// Fonction pour changer la diapositive
-			function changeSlide() {
-				// Masquer la diapositive actuelle
-				slides[currentIndex].style.display = 'none';
-				// Augmenter l'index ou retourner à 0 si c'est la dernière diapositive
-				currentIndex = (currentIndex + 1) % slides.length;
-				// Afficher la nouvelle diapositive
-				slides[currentIndex].style.display = 'block';
-			}
-
-			// Appeler la fonction pour la première fois après un délai de 3 secondes
-			setTimeout(changeSlide, 3000);
-
-			// Définir l'intervalle pour changer les diapositives toutes les 3 secondes
-			setInterval(changeSlide, 3000);
-		}
-
-		// Appeler la fonction quand le document est prêt
-		document.addEventListener('DOMContentLoaded', autoSlide);
-	</script>
+		</script>
 
 </body>
 </html>

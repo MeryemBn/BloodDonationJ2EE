@@ -64,4 +64,14 @@
     <servlet-name>RendezvousController</servlet-name>
     <url-pattern>/RendezvousController</url-pattern>
   </servlet-mapping>
+  <servlet>
+    <description></description>
+    <display-name>DashboardController</display-name>
+    <servlet-name>DashboardController</servlet-name>
+    <servlet-class>controllers.DashboardController</servlet-class>
+  </servlet>
+  <servlet-mapping>
+    <servlet-name>DashboardController</servlet-name>
+    <url-pattern>/DashboardController</url-pattern>
+  </servlet-mapping>
 </web-app>

@@ -39,6 +39,8 @@ public class AppointementController extends HttpServlet {
         } else {
             request.setAttribute("message", "Failed to insert the appointment.");
         }
+
+        request.setAttribute("messagelog", "Please login before making an appointment.");
         request.getRequestDispatcher("/index.jsp").forward(request, response);
     }
 }

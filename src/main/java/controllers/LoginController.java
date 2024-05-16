@@ -35,7 +35,7 @@ public class LoginController extends HttpServlet {
             request.getSession().setAttribute("user", login);
             if (userType.equals("admin")) {
                 // Redirect to Admin.jsp for admin user
-                response.sendRedirect("dashboard.jsp");
+            	response.sendRedirect(request.getContextPath() + "/dashboard");
             } else if (userType.equals("donor")) {
                 // Redirect to index.jsp for donor user
                 response.sendRedirect("index.jsp");
