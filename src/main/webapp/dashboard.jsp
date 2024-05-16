@@ -17,7 +17,7 @@ if (session.getAttribute("user") == null) {
 <!-- ======= Styles ====== -->
 <link rel="stylesheet"
 	href="https://cdn.jsdelivr.net/npm/bootstrap@4.6.2/dist/css/bootstrap.min.css">
-	
+
 <link rel="stylesheet" href="css/adminCss.css">
 <link rel="stylesheet"
 	href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.2/css/all.min.css" />
@@ -89,7 +89,7 @@ if (session.getAttribute("user") == null) {
 				ng-controller="donorController">
 				<div class="container mt-5">
 					<h2 class="text-center mb-5"
-						style="font-family: Arial, sans-serif; color: #025492; text-shadow: 1px 1px 2px #ccc; font-size:4rem">Donors
+						style="font-family: Arial, sans-serif; color: #025492; text-shadow: 1px 1px 2px #ccc; font-size: 4rem">Donors
 						List</h2>
 					<div class="row mb-3">
 						<div class="col-md-6">
@@ -136,7 +136,9 @@ if (session.getAttribute("user") == null) {
 				</div>
 
 				<!-- Donor Modal For Add AND Edit-->
-				<div class="modal" id="exampleModalCenter" tabindex="-1" role="dialog" aria-labelledby="exampleModalCenterTitle" aria-hidden="true" ng-show="modalVisible">
+				<div class="modal" id="exampleModalCenter" tabindex="-1"
+					role="dialog" aria-labelledby="exampleModalCenterTitle"
+					aria-hidden="true" ng-show="modalVisible">
 					<div class="modal-dialog">
 						<div class="modal-content">
 							<div class="modal-header">
@@ -200,8 +202,96 @@ if (session.getAttribute("user") == null) {
 				</div>
 
 			</section>
-			<section id="appointments" class="mainsection hidden">APPOINTMENT
-				DETAILS</section>
+	<section id="appointments" class="mainsection hidden" ng-controller="donorController" >
+				<div class="container mt-5">
+        <h2 class="text-center mb-5"
+            style="font-family: Arial, sans-serif; color: #025492; text-shadow: 1px 1px 2px #ccc; font-size: 4rem">Rendezvous
+            List</h2>
+        <div class="row mb-3">
+            <div class="col-md-6">
+                <input type="text" class="form-control" placeholder="Search by ID or Name" ng-model="searchText">
+            </div>
+            <div class="col-md-6 text-right">
+                <button class="btn btn-primary" data-toggle="modal" data-target="#exampleModalCenter"
+                    ng-click="newRendezvous()">Add Rendezvous</button>
+            </div>
+        </div>
+        <table class="table table-bordered">
+            <thead>
+                <tr>
+                    <th>ID</th>
+                    <th>Name</th>
+                    <th>Blood Group</th>
+                    <th>Date</th>
+                    <th>Time</th>
+                    <th>Actions</th>
+                </tr>
+            </thead>
+            <tbody>
+                 <tr ng-repeat="rendezvous in rendezvousList | filter:searchText1">
+            <td>{{ rendezvous.id }}</td>
+            <td>{{ rendezvous.nom + ' ' + rendezvous.prenom }}</td>
+            <td>{{ rendezvous.groupe_sanguin }}</td>
+            <td>{{ rendezvous.date_rendezvous }}</td>
+            <td>{{ rendezvous.heure_rendezvous }}</td>
+            <td>
+                <button class="btn btn-warning" data-toggle="modal" data-target="#exampleModalCenter" ng-click="editRendezvous(rendezvous)">Edit</button>
+                <button class="btn btn-danger" ng-click="confirmDelete(rendezvous.id)">Delete</button>
+            </td>
+        </tr>
+
+            </tbody>
+        </table>
+    </div>
+
+    <!-- Rendezvous Modal For Add AND Edit-->
+    <div class="modal" id="exampleModalCenter" tabindex="-1" role="dialog" aria-labelledby="exampleModalCenterTitle"
+        aria-hidden="true" ng-show="modalVisible1">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title">{{ modalTitle }}</h5>
+                    <button type="button" class="close" ng-click="closeModal1()">&times;</button>
+                </div>
+                <div class="modal-body">
+                    <form>
+                        <div class="form-group">
+                            <label>Name</label>
+                            <input type="text" class="form-control" ng-model="selectedRendezvous.nom">
+                        </div>
+                        <div class="form-group">
+                            <label>Blood Group</label>
+                            <select class="form-control" ng-model="selectedRendezvous.groupe_sanguin">
+                                <option value="A+">A+</option>
+                                <option value="A-">A-</option>
+                                <option value="B+">B+</option>
+                                <option value="B-">B-</option>
+                                <option value="AB+">AB+</option>
+                                <option value="AB-">AB-</option>
+                                <option value="O+">O+</option>
+                                <option value="O-">O-</option>
+                            </select>
+                        </div>
+                        <div class="form-group">
+                            <label>Date</label>
+                            <input type="date" class="form-control" ng-model="selectedRendezvous.date_rendezvous">
+                        </div>
+                        <div class="form-group">
+                            <label>Time</label>
+                            <input type="time" class="form-control" ng-model="selectedRendezvous.heure_rendezvous">
+                        </div>
+                    </form>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" ng-click="closeModal1()">Close</button>
+                    <button type="button" class="btn btn-primary" ng-click="saveRendezvous()">Save</button>
+                </div>
+            </div>
+        </div>
+    </div>
+    	
+				
+				</section>
 			<section id="donations" class="mainsection hidden">DONATIONS
 				DETAILS</section>
 		</div>
@@ -218,8 +308,8 @@ if (session.getAttribute("user") == null) {
 	<script src="./angularScript/script.js"></script>
 	<script src="https://code.jquery.com/jquery-3.3.1.slim.min.js"></script>
 	<script
-	src="https://cdn.jsdelivr.net/npm/popper.js@1.14.7/dist/umd/popper.min.js"></script>
-<script
-	src="https://cdn.jsdelivr.net/npm/bootstrap@4.3.1/dist/js/bootstrap.min.js"></script>
+		src="https://cdn.jsdelivr.net/npm/popper.js@1.14.7/dist/umd/popper.min.js"></script>
+	<script
+		src="https://cdn.jsdelivr.net/npm/bootstrap@4.3.1/dist/js/bootstrap.min.js"></script>
 </body>
 </html>

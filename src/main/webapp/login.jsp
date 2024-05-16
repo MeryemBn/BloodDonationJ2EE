@@ -45,16 +45,17 @@
 									placeholder="Password" />
 							</div>
 							<div class="form-group">
-								<label for="user-type" style="margin-top:-21px; font-size:14px; font-weight:bold"">Login As:</label><br>
-								<div class="radio-group" style="display:flex;
-															  width:80%;
-															  margin:14px 0;
-															  justify-content:space-between;">
-								<input type="radio" name="user-type" id="donor" value="donor" checked>
-								<label for="donor" style="margin-left: 195px;margin-top:15px;">Admin</label>
-								<input type="radio" name="user-type" id="admin" value="admin">
-								<label for="admin" style="margin-left: 75px; margin-top:15px;">Donor</label>
-							</div>
+								<label for="user-type"
+									style="margin-top: -21px; font-size: 14px; font-weight: bold"">Login
+									As:</label><br>
+								<div class="radio-group"
+									style="display: flex; width: 80%; margin: 14px 0; justify-content: space-between;">
+									<input type="radio" name="user-type" id="donor" value="donor"
+										checked> <label for="donor"
+										style="margin-left: 195px; margin-top: 15px;">Admin</label> <input
+										type="radio" name="user-type" id="admin" value="admin">
+									<label for="admin" style="margin-left: 75px; margin-top: 15px;">Donor</label>
+								</div>
 							</div>
 							<div class="form-group">
 								<input type="checkbox" name="remember-me" id="remember-me"
@@ -67,7 +68,7 @@
 									class="form-submit" value="Log in" />
 							</div>
 						</form>
-						
+
 					</div>
 				</div>
 			</div>

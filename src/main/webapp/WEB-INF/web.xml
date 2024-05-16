@@ -44,4 +44,24 @@
     <servlet-name>DonorController</servlet-name>
     <url-pattern>/DonorController</url-pattern>
   </servlet-mapping>
+  <servlet>
+    <description></description>
+    <display-name>AppointementController</display-name>
+    <servlet-name>AppointementController</servlet-name>
+    <servlet-class>controllers.AppointementController</servlet-class>
+  </servlet>
+  <servlet-mapping>
+    <servlet-name>AppointementController</servlet-name>
+    <url-pattern>/AppointementController</url-pattern>
+  </servlet-mapping>
+  <servlet>
+    <description></description>
+    <display-name>RendezvousController</display-name>
+    <servlet-name>RendezvousController</servlet-name>
+    <servlet-class>controllers.RendezvousController</servlet-class>
+  </servlet>
+  <servlet-mapping>
+    <servlet-name>RendezvousController</servlet-name>
+    <url-pattern>/RendezvousController</url-pattern>
+  </servlet-mapping>
 </web-app>
