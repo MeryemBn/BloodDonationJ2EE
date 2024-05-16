@@ -91,9 +91,9 @@
 					<li class="nav-item mx-0 mx-lg-1"><a
 						class="nav-link py-3 px-0 px-lg-3 rounded" href="#contact">Make
 							Appointment</a></li>
-					<li class="nav-item mx-0 mx-lg-1"><a
+					<li class="nav-item mx-0 mx-lg-1" style="display: <%=(session.getAttribute("user") != null) ? "none" : "block" %>;"><a
 						class="nav-link py-3 px-0 px-lg-3 rounded"href="login.jsp">LOGIN</a></li>
-					<li class="nav-item mx-0 mx-lg-1"><a
+					<li class="nav-item mx-0 mx-lg-1"style="display: <%=(session.getAttribute("user") != null) ? "none" : "block" %>;"><a
 						class="nav-link py-3 px-0 px-lg-3 rounded" href="registration.jsp">SINGUP</a></li>
 					<li class="nav-item mx-0 mx-lg-1" style="display: <%=(session.getAttribute("user") != null) ? "block" : "none" %>;"><a
 						class="nav-link py-3 px-0 px-lg-3 rounded"   href="#" onclick="confirmLogout()">Logout</a></li>

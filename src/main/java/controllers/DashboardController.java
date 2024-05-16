@@ -26,7 +26,7 @@ public class DashboardController extends HttpServlet {
             throws ServletException, IOException {
         Dashboard model = new Dashboard();
         int donorCount = model.getDonneurCount();
-        int bloodGroupCount = model.getHistoriqueDonationCount();
+        int bloodGroupCount = model.getPackDisponibleCount();
         int appointmentCount = model.getRendezVousCount();
         int donationCount = model.getHistoriqueDonationCount();
 

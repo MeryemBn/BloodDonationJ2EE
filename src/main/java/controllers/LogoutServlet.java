@@ -16,10 +16,12 @@ public class LogoutServlet extends HttpServlet {
             session.invalidate();
         }
         // Redirection vers la page de connexion
-        response.sendRedirect("login.jsp");
+        response.sendRedirect("index.jsp");
     }
 
     protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
         doGet(request, response);
     }
 }
+
+

@@ -81,7 +81,7 @@ app.controller("donorController", function($scope, $http) {
 	$scope.loadDonors();
 	
 	//Appointment List
-	
+	/*
 	$scope.rendezvousList = [];
 	$scope.modalVisible1 = false;
 	$scope.selectedRendezvous = {};
@@ -173,6 +173,140 @@ app.controller("donorController", function($scope, $http) {
 
 
 
-	$scope.loadRendezvous();
+	$scope.loadRendezvous();*/
 	//Donations List
 });
+
+app.controller("AppointmentController", function($scope, $http) {
+	
+	
+});
+
+app.controller("donationController", function($scope, $http) {
+    // Donations List
+    $scope.donations = [];
+    $scope.modalVisibleDonation = false;
+    $scope.selectedDonation = {};
+    $scope.modalTitleDonation = "";
+    $scope.donorNames = [];
+    $scope.searchTextDonations = "";
+
+    $scope.loadDonations = function() {
+        $http.get("/BloodDonation/DonationController").then(function(response) {
+            $scope.donations = response.data;
+            console.log($scope.donations);
+        });
+    };
+
+    $scope.loadDonors = function() {
+        $http.get("/BloodDonation/DonorController").then(function(response) {
+            $scope.donorNames = response.data;
+            console.log($scope.donorNames);
+        });
+    };
+
+    $scope.searchDonations = function(donation) {
+        var donorName = donation.donorName.toLowerCase();
+        var searchText = $scope.searchTextDonations.toLowerCase();
+        return donorName.includes(searchText);
+    };
+
+    $scope.newDonation = function() {
+        $scope.modalTitleDonation = "New Donation";
+        $scope.selectedDonation = {};
+        $scope.modalVisibleDonation = true;
+        console.log($scope.modalVisibleDonation);
+    };
+
+    $scope.editDonation = function(donation) {
+        $scope.modalTitleDonation = "Edit Donation";
+        $scope.selectedDonation = angular.copy(donation);
+        $scope.modalVisibleDonation = true;
+        console.log($scope.modalVisibleDonation);
+    };
+
+    $scope.closeModalDonation = function() {
+        $scope.modalVisibleDonation = false;
+        $('body').removeClass('modal-open');
+        $('.modal-backdrop').remove();
+    };
+        
+    function parseFrenchDate(dateString) {
+        // Define month names mapping
+        var monthNames = {
+            'janvier': '01',
+            'février': '02',
+            'mars': '03',
+            'avril': '04',
+            'mai': '05',
+            'juin': '06',
+            'juillet': '07',
+            'août': '08',
+            'septembre': '09',
+            'octobre': '10',
+            'novembre': '11',
+            'décembre': '12'
+        };
+
+        // Replace French month names with numeric values
+        for (var monthFR in monthNames) {
+            if (monthNames.hasOwnProperty(monthFR)) {
+                dateString = dateString.replace(new RegExp(monthFR, 'g'), monthNames[monthFR]);
+            }
+        }
+
+        // Split the date string by space
+        var dateParts = dateString.split(' ');
+
+        // Extract day, month, and year
+        var day = parseInt(dateParts[1]);
+        var month = parseInt(dateParts[0]);
+        var year = parseInt(dateParts[2]);
+
+        // Construct the date string in a format that Date constructor can understand (YYYY-MM-DD)
+        var formattedDate = new Date(year, month - 1, day); // Month is 0-based in JavaScript Date object
+
+        // Return the formatted date object
+        return formattedDate;
+    }
+    
+    $scope.saveDonation = function() {
+		
+   
+        if ($scope.selectedDonation.id) {
+            // Update existing donation
+             var frenchDate = $scope.selectedDonation.date;
+             var formattedDate = parseFrenchDate(frenchDate);
+             $scope.selectedDonation.date = new Date(formattedDate);
+             var isoDate = $scope.selectedDonation.date.toISOString();
+             //console.log(formattedDate);
+            $http.put("/BloodDonation/DonationController", $scope.selectedDonation).then(function(response) {
+                $scope.loadDonations();
+                $scope.closeModalDonation();
+            });
+        } else {
+			
+			console.log($scope.selectedDonation);
+            // Add new donation
+            $http.post("/BloodDonation/DonationController", $scope.selectedDonation).then(function(response) {
+                $scope.loadDonations();
+                $scope.closeModalDonation();
+            });
+        }
+    };
+
+    $scope.updateBloodGroup = function() {
+        var selectedDonor = $scope.donorNames.find(donor => donor.id === $scope.selectedDonation.donorId);
+        if (selectedDonor) {
+            $scope.selectedDonation.bloodGroup = selectedDonor.bloodGroup;
+        } else {
+            $scope.selectedDonation.bloodGroup = '';
+        }
+    };
+
+    $scope.loadDonations();
+    $scope.loadDonors();
+});
+
+
+

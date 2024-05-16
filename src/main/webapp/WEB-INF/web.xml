@@ -74,4 +74,14 @@
     <servlet-name>DashboardController</servlet-name>
     <url-pattern>/DashboardController</url-pattern>
   </servlet-mapping>
+  <servlet>
+    <description></description>
+    <display-name>DonationController</display-name>
+    <servlet-name>DonationController</servlet-name>
+    <servlet-class>controllers.DonationController</servlet-class>
+  </servlet>
+  <servlet-mapping>
+    <servlet-name>DonationController</servlet-name>
+    <url-pattern>/DonationController</url-pattern>
+  </servlet-mapping>
 </web-app>
