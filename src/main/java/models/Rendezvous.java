@@ -10,6 +10,8 @@ public class Rendezvous {
     private String groupe_sanguin;
     private Date date_rendezvous;
     private Time heure_rendezvous;
+     
+    
 
     public Rendezvous(int id, String nom, String prenom, String groupe_sanguin, Date date_rendezvous, Time heure_rendezvous) {
         this.id = id;

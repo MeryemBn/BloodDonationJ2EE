@@ -1,8 +1,8 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
 	pageEncoding="UTF-8"%>
-	<%@ page import="models.DashBloodGroupService" %>
-<%@ page import="models.DashAppointmentService" %>
-<%@ page import="java.util.List" %>
+<%@ page import="models.DashBloodGroupService"%>
+<%@ page import="models.DashAppointmentService"%>
+<%@ page import="java.util.List"%>
 <%
 if (session.getAttribute("user") == null) {
 	response.sendRedirect("login.jsp");
@@ -25,29 +25,32 @@ if (session.getAttribute("user") == null) {
 <link rel="stylesheet"
 	href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.2/css/all.min.css" />
 <style>
-	     .hidden {
-	         display: none;
-	      }
-	      .myProject-graphBox{
-			position: relative;
-			width: 100%;
-			padding : 20px;
-			display: grid;
-			grid-template-columns: 1fr 2fr;
-			grid-gap: 30px;
-			min-height:200px ;
-		  }
-			.myProject-graphBox .myProject-box{
-				position:relative;
-				background:#fff;
-				width: 100%;
-				padding : 20px;
-				box-shadow: 0 7px 25px rgba(0,0,0,0.08);
-				border-radius: 20px;
-			}
-	</style>
-	
-	<script type="text/javascript" src="https://www.gstatic.com/charts/loader.js"></script>
+.hidden {
+	display: none;
+}
+
+.myProject-graphBox {
+	position: relative;
+	width: 100%;
+	padding: 20px;
+	display: grid;
+	grid-template-columns: 1fr 2fr;
+	grid-gap: 30px;
+	min-height: 200px;
+}
+
+.myProject-graphBox .myProject-box {
+	position: relative;
+	background: #fff;
+	width: 100%;
+	padding: 20px;
+	box-shadow: 0 7px 25px rgba(0, 0, 0, 0.08);
+	border-radius: 20px;
+}
+</style>
+
+<script type="text/javascript"
+	src="https://www.gstatic.com/charts/loader.js"></script>
 <script type="text/javascript">
     google.charts.load('current', {'packages':['corechart']});
     google.charts.setOnLoadCallback(drawChart);
@@ -57,36 +60,38 @@ if (session.getAttribute("user") == null) {
         data.addColumn('string', 'Blood Group');
         data.addColumn('number', 'Quantity');
         
-        var dataListJson = '<%= request.getAttribute("dataListJson") %>';
-        var dataList = JSON.parse(dataListJson); // Parse JSON string into JavaScript object
-        console.log(dataList);
+        var dataListJson = '<%=request.getAttribute("dataListJson")%>
+	';
+		var dataList = JSON.parse(dataListJson); // Parse JSON string into JavaScript object
+		console.log(dataList);
 
+		// Populate the chart data
+		if (Array.isArray(dataList)) { // Check if dataList is an array
+			dataList.forEach(function(item) {
+				data.addRow([ item.groupeSanguin, item.qte ]);
+			});
+		}
 
-        // Populate the chart data
-        if (Array.isArray(dataList)) { // Check if dataList is an array
-            dataList.forEach(function(item) {
-                data.addRow([item.groupeSanguin, item.qte]);
-            });
-        }
+		var options = {
+			title : 'Blood Group Distribution', // Title text
+			width : 900,
+			height : 500,
+			is3D : true,
+			titleTextStyle : {
+				color : '#3366cc',
+				fontSize : 28,
+				bold : true,
+				italic : false
+			}
+		};
 
-        var options = {
-        		 title: 'Blood Group Distribution', // Title text
-        		    width: 900,
-        		    height: 500, 
-        		    is3D: true,
-        		    titleTextStyle: {
-        		        color: '#3366cc', 
-        		        fontSize: 28, 
-        		        bold: true, 
-        		        italic: false 
-        		    }        };
+		var chart = new google.visualization.PieChart(document
+				.getElementById('piechart_3d'));
+		chart.draw(data, options);
 
-        var chart = new google.visualization.PieChart(document.getElementById('piechart_3d'));
-        chart.draw(data, options);
-        
-        console.log(dataList);
+		console.log(dataList);
 
-    }
+	}
 </script>
 
 </head>
@@ -118,102 +123,110 @@ if (session.getAttribute("user") == null) {
 		<!-- ========================= Main ==================== -->
 		<div class="myProject-main">
 			<div class="myProject-topbar">
-				<div class="myProject-toggle" >
+				<div class="myProject-toggle">
 					<ion-icon name="menu-outline"></ion-icon>
 				</div>
 			</div>
 
 			<!-- ======================= Cards ================== -->
 			<section id="dashboard" class="mainsection">
-            <div class="myProject-cardBox">
-                <div class="myProject-card">
-                    <div>
-                        <div class="numbers"><%= session.getAttribute("donorCount")%></div>
-                        <div class="myProject-cardName">Donors</div>
-                    </div>
+				<div class="myProject-cardBox">
+					<div class="myProject-card">
+						<div>
+							<div class="numbers"><%=session.getAttribute("donorCount")%></div>
+							<div class="myProject-cardName">Donors</div>
+						</div>
 
-                    <div class="myProject-iconBx">
-                        <ion-icon name="people-outline"></ion-icon>
-                    </div>
-                </div>
+						<div class="myProject-iconBx">
+							<ion-icon name="people-outline"></ion-icon>
+						</div>
+					</div>
 
-                <div class="myProject-card">
-                    <div>
-                        <div class="numbers"><%= session.getAttribute("bloodGroupCount") %></div>
-                        <div class="myProject-cardName">Blood Group</div>
-                    </div>
+					<div class="myProject-card">
+						<div>
+							<div class="numbers"><%=session.getAttribute("bloodGroupCount")%></div>
+							<div class="myProject-cardName">Blood Group</div>
+						</div>
 
-                    <div class="myProject-iconBx">
-                        <i class="fa-solid fa-droplet"></i>
-                    </div>
-                </div>
+						<div class="myProject-iconBx">
+							<i class="fa-solid fa-droplet"></i>
+						</div>
+					</div>
 
-                <div class="myProject-card">
-                    <div>
-                        <div class="numbers"><%= session.getAttribute("appointmentCount") %></div>
-                        <div class="myProject-cardName">Appointment</div>
-                    </div>
+					<div class="myProject-card">
+						<div>
+							<div class="numbers"><%=session.getAttribute("appointmentCount")%></div>
+							<div class="myProject-cardName">Appointment</div>
+						</div>
 
-                    <div class="myProject-iconBx">
-                        <ion-icon name="calendar-outline"></ion-icon>
-                    </div>
-                </div>
+						<div class="myProject-iconBx">
+							<ion-icon name="calendar-outline"></ion-icon>
+						</div>
+					</div>
 
-                <div class="myProject-card">
-                    <div>
-                        <div class="numbers"><%= session.getAttribute("donationCount") %></div>
-                        <div class="myProject-cardName">Donations</div>
-                    </div>
+					<div class="myProject-card">
+						<div>
+							<div class="numbers"><%=session.getAttribute("donationCount")%></div>
+							<div class="myProject-cardName">Donations</div>
+						</div>
 
-                    <div class="myProject-iconBx">
-                        <ion-icon name="heart-circle-outline"></ion-icon>
-                    </div>
-                </div>
-            </div>
-            
-            <div class="myProject-graphBox">
-            <div class="myProject-box">
-            	<div id="piechart_3d" style="width: 600px; height: 500px;"></div>
-            </div>
-            <div class="myProject-box">
-			    <h2 class="text-center" style="color:#3366cc; padding-bottom:20px;">Appointments of this week</h2>
-			    <table class="table table-bordered text-center"> <!-- Added 'text-center' class to center the table content -->
-			        <thead>
-			            <tr>
-			                <th>Last Name</th>
-			                <th>First Name</th>
-			                <th>Blood Group</th>
-			                <th>Date</th>
-			                <th>Time</th>
-			                <th>Status</th>
-			            </tr>
-			        </thead>
-			        <tbody>
-			            <% @SuppressWarnings("unchecked")
-			            List<DashAppointmentService> rendezVousList = (List<DashAppointmentService>) request.getAttribute("rendezVousList");
-			            for (DashAppointmentService rendezVous : rendezVousList) { %>
-			                <tr>
-			                    <td><%= rendezVous.getNom() %></td>
-			                    <td><%= rendezVous.getPrenom() %></td>
-			                    <td><%= rendezVous.getGroupeSanguin() %></td>
-			                    <td><%= rendezVous.getDateRendezVous() %></td>
-			                    <td><%= rendezVous.getHeureRendezVous() %></td>
-			                    <td style="color: <%= rendezVous.getStatus().equals("done") ? "#006b21" : "grey" %>;
-			                    		background-color: <%= rendezVous.getStatus().equals("done") ? "#86e49d" : "#ebc474" %>;
+						<div class="myProject-iconBx">
+							<ion-icon name="heart-circle-outline"></ion-icon>
+						</div>
+					</div>
+				</div>
+
+				<div class="myProject-graphBox">
+					<div class="myProject-box">
+						<div id="piechart_3d" style="width: 600px; height: 500px;"></div>
+					</div>
+					<div class="myProject-box">
+						<h2 class="text-center"
+							style="color: #3366cc; padding-bottom: 20px;">Appointments
+							of this week</h2>
+						<table class="table table-bordered text-center">
+							<!-- Added 'text-center' class to center the table content -->
+							<thead>
+								<tr>
+									<th>Last Name</th>
+									<th>First Name</th>
+									<th>Blood Group</th>
+									<th>Date</th>
+									<th>Time</th>
+									<th>Status</th>
+								</tr>
+							</thead>
+							<tbody>
+								<%
+								@SuppressWarnings("unchecked")
+								List<DashAppointmentService> rendezVousList = (List<DashAppointmentService>) request.getAttribute("rendezVousList");
+								for (DashAppointmentService rendezVous : rendezVousList) {
+								%>
+								<tr>
+									<td><%=rendezVous.getNom()%></td>
+									<td><%=rendezVous.getPrenom()%></td>
+									<td><%=rendezVous.getGroupeSanguin()%></td>
+									<td><%=rendezVous.getDateRendezVous()%></td>
+									<td><%=rendezVous.getHeureRendezVous()%></td>
+									<td
+										style="color: <%=rendezVous.getStatus().equals("done") ? "#006b21" : "grey"%>;
+			                    		background-color: <%=rendezVous.getStatus().equals("done") ? "#86e49d" : "#ebc474"%>;
 			                    		   padding: .5rem 0;
 			                    		   margin: 5px;
 										    border-radius: 2rem;
 										    text-align: center;">
-			                        <%= rendezVous.getStatus() %>
-			                    </td>
-			                </tr>
-			            <% } %>
-			        </tbody>
-			    </table> 
-			</div>
+										<%=rendezVous.getStatus()%>
+									</td>
+								</tr>
+								<%
+								}
+								%>
+							</tbody>
+						</table>
+					</div>
 
-            </div>
-            </section>
+				</div>
+			</section>
 			<!-- ======================= DONORS DETAILS ================== -->
 			<section id="donors" class="mainsection hidden"
 				ng-controller="donorController">
@@ -332,176 +345,203 @@ if (session.getAttribute("user") == null) {
 				</div>
 
 			</section>
-			
-			<section id="appointments" class="mainsection hidden" ng-controller="AppointmentController" >
-						<div class="container mt-5">
-		        <h2 class="text-center mb-5"
-		            style="font-family: Arial, sans-serif; color: #025492; text-shadow: 1px 1px 2px #ccc; font-size: 4rem">Rendezvous
-		            List</h2>
-		        <div class="row mb-3">
-		            <div class="col-md-6">
-		                <input type="text" class="form-control" placeholder="Search by ID or Name" ng-model="searchText">
-		            </div>
-		            <div class="col-md-6 text-right">
-		                <button class="btn btn-primary" data-toggle="modal" data-target="#exampleModalCenter"
-		                    ng-click="newRendezvous()">Add Rendezvous</button>
-		            </div>
-		        </div>
-		        <table class="table table-bordered">
-		            <thead>
-		                <tr>
-		                    <th>ID</th>
-		                    <th>Name</th>
-		                    <th>Blood Group</th>
-		                    <th>Date</th>
-		                    <th>Time</th>
-		                    <th>Actions</th>
-		                </tr>
-		            </thead>
-		            <tbody>
-		                 <tr ng-repeat="rendezvous in rendezvousList | filter:searchText1">
-		            <td>{{ rendezvous.id }}</td>
-		            <td>{{ rendezvous.nom + ' ' + rendezvous.prenom }}</td>
-		            <td>{{ rendezvous.groupe_sanguin }}</td>
-		            <td>{{ rendezvous.date_rendezvous }}</td>
-		            <td>{{ rendezvous.heure_rendezvous }}</td>
-		            <td>
-		                <button class="btn btn-warning" data-toggle="modal" data-target="#exampleModalCenter" ng-click="editRendezvous(rendezvous)">Edit</button>
-		                <button class="btn btn-danger" ng-click="confirmDelete(rendezvous.id)">Delete</button>
-		            </td>
-		        </tr>
-		
-		            </tbody>
-		        </table>
-		    </div>
-		
-		    <!-- Rendezvous Modal For Add AND Edit-->
-		    <div class="modal" id="exampleModalCenter" tabindex="-1" role="dialog" aria-labelledby="exampleModalCenterTitle"
-		        aria-hidden="true" ng-show="modalVisible1">
-		        <div class="modal-dialog">
-		            <div class="modal-content">
-		                <div class="modal-header">
-		                    <h5 class="modal-title">{{ modalTitle }}</h5>
-		                    <button type="button" class="close" ng-click="closeModal1()">&times;</button>
-		                </div>
-		                <div class="modal-body">
-		                    <form>
-		                        <div class="form-group">
-		                            <label>Name</label>
-		                            <input type="text" class="form-control" ng-model="selectedRendezvous.nom">
-		                        </div>
-		                        <div class="form-group">
-		                            <label>Blood Group</label>
-		                            <select class="form-control" ng-model="selectedRendezvous.groupe_sanguin">
-		                                <option value="A+">A+</option>
-		                                <option value="A-">A-</option>
-		                                <option value="B+">B+</option>
-		                                <option value="B-">B-</option>
-		                                <option value="AB+">AB+</option>
-		                                <option value="AB-">AB-</option>
-		                                <option value="O+">O+</option>
-		                                <option value="O-">O-</option>
-		                            </select>
-		                        </div>
-		                        <div class="form-group">
-		                            <label>Date</label>
-		                            <input type="date" class="form-control" ng-model="selectedRendezvous.date_rendezvous">
-		                        </div>
-		                        <div class="form-group">
-		                            <label>Time</label>
-		                            <input type="time" class="form-control" ng-model="selectedRendezvous.heure_rendezvous">
-		                        </div>
-		                    </form>
-		                </div>
-		                <div class="modal-footer">
-		                    <button type="button" class="btn btn-secondary" ng-click="closeModal1()">Close</button>
-		                    <button type="button" class="btn btn-primary" ng-click="saveRendezvous()">Save</button>
-		                </div>
-		            </div>
-		        </div>
-		    </div>
-		    	
-						
+
+			<section id="appointments" class="mainsection hidden"
+				ng-controller="AppointmentController">
+				<div class="container mt-5">
+					<h2 class="text-center mb-5"
+						style="font-family: Arial, sans-serif; color: #025492; text-shadow: 1px 1px 2px #ccc; font-size: 4rem">Appointment
+						List</h2>
+					<div class="row mb-3">
+						<div class="col-md-6">
+							<input type="text" class="form-control"
+								placeholder="Search by ID or Name" ng-model="searchText1">
+						</div>
+						<div class="col-md-6 text-right">
+							<button class="btn btn-primary" data-toggle="modal"
+								data-target="#exampleModalCenterAdd" ng-click="newRendezvous()">Add
+								Appointment</button>
+						</div>
+					</div>
+					<table class="table table-bordered">
+						<thead>
+							<tr>
+								<th>ID</th>
+								<th>First Name</th>
+								<th>Last Name</th>
+								<th>Blood Group</th>
+								<th>Date</th>
+								<th>Time</th>
+								<th>Actions</th>
+							</tr>
+						</thead>
+						<tbody>
+							<tr
+								ng-repeat="rendezvous in rendezvousList | filter:searchRendezvous">
+								<td>{{ rendezvous.id }}</td>
+								<td>{{ rendezvous.nom }}</td>
+								<td>{{ rendezvous.prenom }}</td>
+								<td>{{ rendezvous.groupe_sanguin }}</td>
+								<td>{{ rendezvous.date_rendezvous | date:'yyyy-MM-dd' }}</td>
+								<td>{{ rendezvous.heure_rendezvous }}</td>
+								<td>
+									<!-- <button class="btn btn-warning" data-toggle="modal" data-target="#exampleModalCenter" ng-click="editRendezvous(rendezvous)">Edit</button>  -->
+									<button class="btn btn-danger"
+										ng-click="confirmDeleteRendezvous(rendezvous.id)">Delete</button>
+								</td>
+							</tr>
+						</tbody>
+					</table>
+				</div>
+
+				<!-- Rendezvous Modal For Add AND Edit-->
+				<div class="modal" id="exampleModalCenterAdd" tabindex="-1"
+					role="dialog" aria-labelledby="exampleModalCenterTitle"
+					aria-hidden="true" ng-show="modalVisible1">
+					<div class="modal-dialog">
+						<div class="modal-content">
+							<div class="modal-header">
+								<h5 class="modal-title">{{ modalTitle1 }}</h5>
+								<button type="button" class="close" ng-click="closeModal1()">&times;</button>
+							</div>
+							<div class="modal-body">
+								<form>
+									<input type="hidden" ng-model="selectedRendezvous.id">
+									<div class="form-group">
+										<label>First Name</label> <input type="text"
+											class="form-control" ng-model="selectedRendezvous.nom">
+									</div>
+									<div class="form-group">
+										<label>Last Name</label> <input type="text"
+											class="form-control" ng-model="selectedRendezvous.prenom">
+									</div>
+									<div class="form-group">
+										<label>Blood Group</label> <select class="form-control"
+											ng-model="selectedRendezvous.groupe_sanguin">
+											<option value="A+">A+</option>
+											<option value="A-">A-</option>
+											<option value="B+">B+</option>
+											<option value="B-">B-</option>
+											<option value="AB+">AB+</option>
+											<option value="AB-">AB-</option>
+											<option value="O+">O+</option>
+											<option value="O-">O-</option>
+										</select>
+									</div>
+									<div class="form-group">
+										<label>Date</label> <input type="date" class="form-control"
+											ng-model="selectedRendezvous.date_rendezvous">
+									</div>
+									<div class="form-group">
+										<label>Time</label> <input type="time" class="form-control"
+											ng-model="selectedRendezvous.heure_rendezvous">
+									</div>
+
+								</form>
+							</div>
+							<div class="modal-footer">
+								<button type="button" class="btn btn-secondary"
+									ng-click="closeModal1()">Close</button>
+								<button type="button" class="btn btn-primary"
+									ng-click="saveRendezvous()">Save</button>
+							</div>
+						</div>
+					</div>
+				</div>
 			</section>
-			
-			
-			<section id="donations" class="mainsection hidden" ng-controller="donationController">
-			    <div class="container mt-5">
-			        <h2 class="text-center mb-5"
-			            style="font-family: Arial, sans-serif; color: #025492; text-shadow: 1px 1px 2px #ccc; font-size: 4rem">Donations List</h2>
-			        <div class="row mb-3">
-			            <div class="col-md-6">
-			                <input type="text" class="form-control"
-			                    placeholder="Search by Donor Name" ng-model="searchTextDonations">
-			            </div>
-			            <div class="col-md-6 text-right">
-			                <button class="btn btn-primary" data-toggle="modal" data-target="#donationModal" ng-click="newDonation()">Add Donation</button>
-			            </div>
-			        </div>
-			        <!-- Donations Table -->
-			        <table class="table table-bordered">
-			            <thead>
-			                <tr>
-			                    <th>ID</th>
-			                    <th>Donor Name</th>
-			                    <th>Blood Group</th>
-			                    <th>Date</th>
-			                    <th>Time</th>
-			                    <th>Amount Donated</th>
-			                    <th>Actions</th>
-			                </tr>
-			            </thead>
-			            <tbody>
-			                <tr ng-repeat="donation in donations | filter:searchDonations">
-			                    <td>{{ donation.id }}</td>
-			                    <td>{{ donation.donorName }}</td>
-			                    <td>{{ donation.bloodGroup }}</td>
-			                    <td>{{ donation.date }}</td>
-			                    <td>{{ donation.time }}</td>
-			                    <td>{{ donation.AmountDonated }}</td>
-			                    <td>
-			                        <button class="btn btn-warning" data-toggle="modal" data-target="#donationModal" ng-click="editDonation(donation)">Edit</button>
-			                    </td>
-			                </tr>
-			            </tbody>
-			        </table>
-			    </div>
-			
-			    <!-- Donation Modal For Add AND Edit -->
-			    <div class="modal" id="donationModal" tabindex="-1" role="dialog"
-			        aria-labelledby="exampleModalCenterTitle" aria-hidden="true"
-			        ng-show="modalVisibleDonation">
-			        <div class="modal-dialog">
-			            <div class="modal-content">
-			                <div class="modal-header">
-			                    <h5 class="modal-title">{{ modalTitleDonation }}</h5>
-			                    <button type="button" class="close" ng-click="closeModalDonation()">&times;</button>
-			                </div>
-			                <div class="modal-body">
-			                    <form>
-			                        <div class="form-group">
-			                            <label for="donorName">Donor Name</label>
-			                            <select class="form-control" ng-model="selectedDonation.donorId" ng-change="updateBloodGroup()" ng-options="donor.id as donor.name for donor in donorNames">
-			                                <option value="">Select Donor</option>
-			                            </select>
-			                        </div>
-			                        <div class="form-group">
-			                            <label for="bloodGroup">Blood Group</label>
-			                            <input type="text" class="form-control" ng-model="selectedDonation.bloodGroup" readonly>
-			                        </div>
-			                        <div class="form-group">
-			                            <label for="amountDonated">Amount Donated</label>
-			                            <input type="number" class="form-control" ng-model="selectedDonation.AmountDonated">
-			                        </div>
-			                    </form>
-			                </div>
-			                <div class="modal-footer">
-			                    <button type="button" class="btn btn-secondary" ng-click="closeModalDonation()">Close</button>
-			                    <button type="button" class="btn btn-primary" ng-click="saveDonation()">Save</button>
-			                </div>
-			            </div>
-			        </div>
-			    </div>
+
+
+
+			<section id="donations" class="mainsection hidden"
+				ng-controller="donationController">
+				<div class="container mt-5">
+					<h2 class="text-center mb-5"
+						style="font-family: Arial, sans-serif; color: #025492; text-shadow: 1px 1px 2px #ccc; font-size: 4rem">Donations
+						List</h2>
+					<div class="row mb-3">
+						<div class="col-md-6">
+							<input type="text" class="form-control"
+								placeholder="Search by Donor Name"
+								ng-model="searchTextDonations">
+						</div>
+						<div class="col-md-6 text-right">
+							<button class="btn btn-primary" data-toggle="modal"
+								data-target="#donationModal" ng-click="newDonation()">Add
+								Donation</button>
+						</div>
+					</div>
+					<!-- Donations Table -->
+					<table class="table table-bordered">
+						<thead>
+							<tr>
+								<th>ID</th>
+								<th>Donor Name</th>
+								<th>Blood Group</th>
+								<th>Date</th>
+								<th>Time</th>
+								<th>Amount Donated</th>
+								<th>Actions</th>
+							</tr>
+						</thead>
+						<tbody>
+							<tr ng-repeat="donation in donations | filter:searchDonations">
+								<td>{{ donation.id }}</td>
+								<td>{{ donation.donorName }}</td>
+								<td>{{ donation.bloodGroup }}</td>
+								<td>{{ donation.date }}</td>
+								<td>{{ donation.time }}</td>
+								<td>{{ donation.AmountDonated }}</td>
+								<td>
+									<button class="btn btn-warning" data-toggle="modal"
+										data-target="#donationModal" ng-click="editDonation(donation)">Edit</button>
+								</td>
+							</tr>
+						</tbody>
+					</table>
+				</div>
+
+				<!-- Donation Modal For Add AND Edit -->
+				<div class="modal" id="donationModal" tabindex="-1" role="dialog"
+					aria-labelledby="exampleModalCenterTitle" aria-hidden="true"
+					ng-show="modalVisibleDonation">
+					<div class="modal-dialog">
+						<div class="modal-content">
+							<div class="modal-header">
+								<h5 class="modal-title">{{ modalTitleDonation }}</h5>
+								<button type="button" class="close"
+									ng-click="closeModalDonation()">&times;</button>
+							</div>
+							<div class="modal-body">
+								<form>
+									<div class="form-group">
+										<label for="donorName">Donor Name</label> <select
+											class="form-control" ng-model="selectedDonation.donorId"
+											ng-change="updateBloodGroup()"
+											ng-options="donor.id as donor.name for donor in donorNames">
+											<option value="">Select Donor</option>
+										</select>
+									</div>
+									<div class="form-group">
+										<label for="bloodGroup">Blood Group</label> <input type="text"
+											class="form-control" ng-model="selectedDonation.bloodGroup"
+											readonly>
+									</div>
+									<div class="form-group">
+										<label for="amountDonated">Amount Donated</label> <input
+											type="number" class="form-control"
+											ng-model="selectedDonation.AmountDonated">
+									</div>
+								</form>
+							</div>
+							<div class="modal-footer">
+								<button type="button" class="btn btn-secondary"
+									ng-click="closeModalDonation()">Close</button>
+								<button type="button" class="btn btn-primary"
+									ng-click="saveDonation()">Save</button>
+							</div>
+						</div>
+					</div>
+				</div>
 			</section>
 
 		</div>

@@ -175,7 +175,6 @@ body {
 	color: var(--myProject-blue);
 }
 
-
 /* ======================= Cards ====================== */
 .myProject-cardBox {
 	position: relative;
@@ -197,31 +196,32 @@ body {
 	box-shadow: 0 7px 25px rgba(0, 0, 0, 0.08);
 	border-radius: 20px;
 }
+
 .myProject-cardBox .myProject-card .numbers {
-  position: relative;
-  font-weight: 500;
-  font-size: 2.5rem;
-  color: #c30010;
+	position: relative;
+	font-weight: 500;
+	font-size: 2.5rem;
+	color: #c30010;
 }
 
 .myProject-cardBox .myProject-card .myProject-cardName {
-  color: #999;
-  font-size: 1.1rem;
-  margin-top: 5px;
+	color: #999;
+	font-size: 1.1rem;
+	margin-top: 5px;
 }
 
 .myProject-cardBox .myProject-card .myProject-iconBx {
-  font-size: 3.5rem;
-  color: #999;
+	font-size: 3.5rem;
+	color: #999;
 }
 
 .myProject-cardBox .myProject-card:hover {
-  background:#cadeef;
+	background: #cadeef;
 }
-.myProject-cardBox .myProject-card:hover .numbers,
-.myProject-cardBox .myProject-card:hover .myProject-cardName,
-.myProject-cardBox .myProject-card:hover .myProject-iconBx {
-  color: #c30010;
+
+.myProject-cardBox .myProject-card:hover .numbers, .myProject-cardBox .myProject-card:hover .myProject-cardName,
+	.myProject-cardBox .myProject-card:hover .myProject-iconBx {
+	color: #c30010;
 }
 
 /* ====================== Responsive Design ========================== */
